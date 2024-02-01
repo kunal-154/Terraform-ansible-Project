@@ -31,4 +31,3 @@
 
     - name: Run docker container
       command: docker run -d -p 3000:3000 --name node-app-container nodeapp
- 
