@@ -9,7 +9,7 @@ terraform {
 
 provider "aws" {
   region     = "ap-south-1"
-  access_key = "********"
+  access_key = "*********"
   secret_key = "*********"
 }
 
@@ -28,11 +28,11 @@ resource "aws_key_pair" "key_pair" {
 }
 
 resource "local_file" "private_key" {
-  content = tls_private_key.rsa_4096.private_key_pem
-  filename = var.key_name
+  content  = tls_private_key.rsa_4096.private_key_pem
+  filename = "/home/ubuntu/demo-app/${var.key_name}.pem"  # Specify .pem extension
 
   provisioner "local-exec" {
-    command = "chmod 400 /home/ubuntu/deploy-nodeapp-terraform-ansible/${var.key_name}"
+    command = "chmod 600 /home/ubuntu/demo-app/${var.key_name}.pem"
   }
 }
 
@@ -73,6 +73,6 @@ resource "aws_instance" "public_instance" {
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i '${aws_instance.public_instance.public_ip},' --user ubuntu --private-key=/home/ubuntu/deploy-nodeapp-terraform-ansible/${var.key_name} docker-install.yml"
+    command = "ansible-playbook -i '${aws_instance.public_instance.public_ip},' --user ubuntu --private-key=/home/ubuntu/demo-app/${var.key_name}.pem docker-install.yml"
   }
 }
