@@ -4,7 +4,7 @@ var app = express();
 const PORT = 3000;
 
 app.get('/', (req, res) => {
-    return res.send("CodeSagar API");
+    return res.send("Hello World. From ansible and terraform");
 });
 
 app.listen(PORT, ()=> {
